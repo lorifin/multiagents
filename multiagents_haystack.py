@@ -15,10 +15,14 @@ import os
 #OPENAI_API_KEY = st.secrets.get("OPENAI_API_KEY", os.getenv("OPENAI_API_KEY"))
 
 import streamlit as st
+import os
 
 OPENAI_API_KEY = st.secrets.get("OPENAI_API_KEY", os.getenv("OPENAI_API_KEY"))
-if not isinstance(OPENAI_API_KEY, str) or not OPENAI_API_KEY.startswith("sk-"):
-    raise ValueError(f"Clé OpenAI absente ou mal formatée : {OPENAI_API_KEY!r}")
+if OPENAI_API_KEY is None:
+    raise ValueError("La clé OPENAI_API_KEY n'est pas définie dans les secrets Streamlit ou l'environnement !")
+OPENAI_API_KEY = str(OPENAI_API_KEY)
+if not OPENAI_API_KEY.startswith("sk-"):
+    raise ValueError(f"Clé OpenAI API mal formatée : {OPENAI_API_KEY!r}")
 
 
 # --- 1. Données simulées pour chaque domaine ---

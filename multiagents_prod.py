@@ -20,7 +20,11 @@ from haystack.components.routers import ConditionalRouter
 import streamlit as st
 import os
 
-OPENAI_API_KEY = st.secrets.get("OPENAI_API_KEY", os.getenv("OPENAI_API_KEY"))
+#OPENAI_API_KEY = st.secrets.get("OPENAI_API_KEY", os.getenv("OPENAI_API_KEY"))
+OPENAI_API_KEY = str(st.secrets.get("OPENAI_API_KEY", os.getenv("OPENAI_API_KEY")))
+if not OPENAI_API_KEY.startswith("sk-"):
+    raise ValueError(f"Clé OpenAI API introuvable ou mal formatée : {OPENAI_API_KEY!r}")
+
 if not isinstance(OPENAI_API_KEY, str) or not OPENAI_API_KEY.startswith("sk-"):
     raise ValueError(f"Clé OpenAI absente ou mal formatée : {OPENAI_API_KEY!r}")
 

@@ -21,6 +21,10 @@ import streamlit as st
 import os
 
 OPENAI_API_KEY = st.secrets.get("OPENAI_API_KEY", os.getenv("OPENAI_API_KEY"))
+if not isinstance(OPENAI_API_KEY, str) or not OPENAI_API_KEY.startswith("sk-"):
+    raise ValueError(f"Clé OpenAI absente ou mal formatée : {OPENAI_API_KEY!r}")
+
+#OPENAI_API_KEY = st.secrets.get("OPENAI_API_KEY", os.getenv("OPENAI_API_KEY"))
 
 # Configuration pour la production
 @dataclass
@@ -212,11 +216,11 @@ class ProductionMultiAgentService:
             template=prompt_template, 
             required_variables=["documents", "query"]
         )
-        from haystack.components.generators import OpenAIGenerator
+        #from haystack.components.generators import OpenAIGenerator
         print("API KEY VALUE:", OPENAI_API_KEY, type(OPENAI_API_KEY))
 
         generator = OpenAIGenerator(model="gpt-3.5-turbo", api_key=OPENAI_API_KEY)
-
+        
                 
         # Connexions
         pipeline.add_component("retriever", retriever)

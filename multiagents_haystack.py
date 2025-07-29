@@ -11,11 +11,14 @@ import os
 #load_dotenv()
 #OPENAI_API_KEY = os.getenv("OPENAI_API_KEY")
 # --- Configuration de base (remplace ta clé OpenAI !) ---
+
+#OPENAI_API_KEY = st.secrets.get("OPENAI_API_KEY", os.getenv("OPENAI_API_KEY"))
+
 import streamlit as st
-import os
 
 OPENAI_API_KEY = st.secrets.get("OPENAI_API_KEY", os.getenv("OPENAI_API_KEY"))
-
+if not isinstance(OPENAI_API_KEY, str) or not OPENAI_API_KEY.startswith("sk-"):
+    raise ValueError(f"Clé OpenAI absente ou mal formatée : {OPENAI_API_KEY!r}")
 
 
 # --- 1. Données simulées pour chaque domaine ---

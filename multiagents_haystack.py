@@ -88,6 +88,7 @@ class MultiAgentCustomerService:
         prompt_builder = PromptBuilder(template=prompt_template)
        # generator = OpenAIGenerator(model="gpt-3.5-turbo")
         from haystack.components.generators import OpenAIGenerator
+        print("API KEY VALUE:", OPENAI_API_KEY, type(OPENAI_API_KEY))
 
         generator = OpenAIGenerator(model="gpt-3.5-turbo", api_key=OPENAI_API_KEY)
 

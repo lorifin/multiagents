@@ -5,6 +5,10 @@ import json
 
 # Import your multiagent service
 from multiagents_haystack import ProductionMultiAgentService, ProductionConfig
+import streamlit as st
+import os
+
+OPENAI_API_KEY = st.secrets.get("OPENAI_API_KEY", os.getenv("OPENAI_API_KEY"))
 
 # Configuration Streamlit
 st.set_page_config(

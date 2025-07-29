@@ -8,9 +8,13 @@ from haystack.components.routers import ConditionalRouter
 from typing import List
 import os
 
+#load_dotenv()
+#OPENAI_API_KEY = os.getenv("OPENAI_API_KEY")
 # --- Configuration de base (remplace ta clé OpenAI !) ---
-OPENAI_API_KEY = ""
-os.environ["OPENAI_API_KEY"] = OPENAI_API_KEY
+import streamlit as st
+import os
+
+OPENAI_API_KEY = st.secrets.get("OPENAI_API_KEY", os.getenv("OPENAI_API_KEY"))
 
 
 
@@ -82,7 +86,11 @@ class MultiAgentCustomerService:
         """
         
         prompt_builder = PromptBuilder(template=prompt_template)
-        generator = OpenAIGenerator(model="gpt-3.5-turbo")
+       # generator = OpenAIGenerator(model="gpt-3.5-turbo")
+        from haystack.components.generators import OpenAIGenerator
+
+        generator = OpenAIGenerator(model="gpt-3.5-turbo", api_key=OPENAI_API_KEY)
+
         
         # Connecter les composants
         pipeline.add_component("text_embedder", text_embedder)

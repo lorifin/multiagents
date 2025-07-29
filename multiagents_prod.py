@@ -212,15 +212,11 @@ class ProductionMultiAgentService:
             template=prompt_template, 
             required_variables=["documents", "query"]
         )
-        
-        generator = OpenAIGenerator(
-            model=self.config.llm_model,
-            generation_kwargs={
-                "max_tokens": 200,
-                "temperature": 0.3
-            }
-        )
-        
+        from haystack.components.generators import OpenAIGenerator
+
+        generator = OpenAIGenerator(model="gpt-3.5-turbo", api_key=OPENAI_API_KEY)
+
+                
         # Connexions
         pipeline.add_component("retriever", retriever)
         pipeline.add_component("prompt_builder", prompt_builder)

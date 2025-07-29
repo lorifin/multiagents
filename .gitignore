@@ -1,0 +1,22 @@
+# Environnements et fichiers temporaires
+__pycache__/
+*.pyc
+.venv/
+env/
+venv/
+.DS_Store
+
+# Données et modèles
+data/
+training/
+validation/
+*.h5
+*.tar.gz
+*.pkl
+*.db
+*.npz
+
+# Fichiers de config sensibles
+.env
+logs/
+

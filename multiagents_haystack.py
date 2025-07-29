@@ -17,12 +17,23 @@ import os
 import streamlit as st
 import os
 
-OPENAI_API_KEY = st.secrets.get("OPENAI_API_KEY", os.getenv("OPENAI_API_KEY"))
-if OPENAI_API_KEY is None:
-    raise ValueError("La clé OPENAI_API_KEY n'est pas définie dans les secrets Streamlit ou l'environnement !")
-OPENAI_API_KEY = str(OPENAI_API_KEY)
-if not OPENAI_API_KEY.startswith("sk-"):
-    raise ValueError(f"Clé OpenAI API mal formatée : {OPENAI_API_KEY!r}")
+# Gestion robustes des secrets (Streamlit Cloud, local, env)
+OPENAI_API_KEY = None
+
+# 1. Prend la variable d'environnement (priorité Cloud)
+if os.getenv("OPENAI_API_KEY"):
+    OPENAI_API_KEY = os.getenv("OPENAI_API_KEY")
+
+# 2. Sinon, tente d'importer Streamlit secrets (cas local/app cloud)
+try:
+    import streamlit as st
+    if hasattr(st, "secrets") and "OPENAI_API_KEY" in st.secrets:
+        OPENAI_API_KEY = str(st.secrets["OPENAI_API_KEY"])
+except ImportError:
+    pass
+
+if not OPENAI_API_KEY or not isinstance(OPENAI_API_KEY, str) or not OPENAI_API_KEY.startswith("sk-"):
+    raise ValueError(f"Clé OpenAI absente ou mal formatée (actuelle : {OPENAI_API_KEY!r})")
 
 
 # --- 1. Données simulées pour chaque domaine ---
